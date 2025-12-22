@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Restaurant Menu</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f8f8f8;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .category {
+            margin-top: 30px;
+        }
+        .food-item {
+            background: #fff;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .price {
+            font-weight: bold;
+            color: green;
+        }
+        .btn {
+            padding: 6px 12px;
+            background: #ff5722;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background: #e64a19;
+        }
+    </style>
+</head>
+<body>
+    {% if menu_data %}
+        <h1>🍽️ Our Menu</h1>
+        {% for data in menu_data %}
+        <div class="category">
+            <h2>{{ data.category.name }}</h2>
+            
+            {% for item in data.items %}
+            <div class="food-item">
+                <div>
+                    <h3>{{ item.name }}</h3>
+                    <p>{{ item.description }}</p>
+                </div>
+                <div>
+                    <span class="price">₹{{ item.price }}</span><br><br>
+                    <button class="btn">Add to Cart</button>
+                </div>
+            </div>
+            {% empty %}
+            <p>No items available</p>
+            {% endfor %}
+        </div>
+        {% endfor %}
+    {% else %}
+        <h1>Menu not Available</h1>
+    {% endif %}
+</body>
+</html>
