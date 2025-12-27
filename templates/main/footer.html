@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
     <link rel="stylesheet" href="{% static 'main/footer.css' %}">
 </head>
 <body>
@@ -13,14 +12,5 @@
         <h3>Savoria</h3>
         <p>&copy; <span id="year"></span> Savoria Fine Dining. All rights reserved.</p>
     </footer>
-    <script>
-        // Set dynamic year in footer
-        document.getElementById('year').textContent = new Date().getFullYear();
-
-        // Example interaction for the cart
-        document.getElementById('cartBtn').addEventListener('click', () => {
-            alert('Opening your shopping cart...');
-        });
-    </script>
 </body>
 </html>

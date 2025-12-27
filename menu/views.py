@@ -7,6 +7,8 @@ def menu_list(request):
 
     menu_data = []
     for category in categories:
+        
+        # print(category.id)
         items = MenuItem.objects.filter(category=category,available=True)
 
         menu_data.append(
