@@ -201,6 +201,10 @@
             <span class="grand-total-label">Total Payable</span>
             <span class="grand-total-amount">₹{{ order.total_amount }}</span>
         </div>
+        {% if order.status == "PAID" %}
+            <span style="color:green">Payment Successful</span>
+        {% endif %}
+
 
         <div class="actions">
             <a href="/" class="btn-back">🔙 Back to Menu</a>

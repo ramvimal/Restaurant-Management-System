@@ -66,7 +66,7 @@ def increase_quantity(request, item_id):
 def decrease_quantity(request, item_id):
     cart = request.session.get('cart', {})
     item_id = str(item_id)
-    
+
     if item_id in cart:
         cart[item_id]['quantity'] -= 1
         if cart[item_id]['quantity'] <= 0:
@@ -99,38 +99,78 @@ def checkout_confirm(request):
     if request.method != "POST":
         return JsonResponse({"error": "Invalid request"}, status=400)
 
-    cart = request.session.get('cart')
+    # 🔐 Prevent duplicate checkout
+    if request.session.get("order_confirmed") and request.session.get("current_order_id"):
+        return JsonResponse(
+            {
+                "order_id": request.session["current_order_id"]
+            }
+        )
+
+    cart = request.session.get("cart")
     if not cart:
-        return JsonResponse({"error": "Cart empty"}, status=400)
+        return JsonResponse({"error": "Cart expired"}, status=400)
 
     data = json.loads(request.body)
 
     customer_name = data.get("customer_name", "Guest")
     phone = data.get("phone", "")
 
+    # ✅ Create order (PENDING for payment flow)
     order = Order.objects.create(
         customer_name=customer_name,
-        total_amount=0
+        phone=phone,
+        total_amount=0,
+        status="PENDING"   # important
     )
 
     total = 0
     for item in cart.values():
         OrderItem.objects.create(
             order=order,
-            item_name=item['name'],
-            price=item['price'],
-            quantity=item['quantity']
+            item_name=item["name"],
+            price=item["price"],
+            quantity=item["quantity"]
         )
-        total += item['price'] * item['quantity']
+        total += item["price"] * item["quantity"]
 
     order.total_amount = total
     order.save()
 
-    request.session['cart'] = {}
+    # ✅ Mark checkout as completed (VERY IMPORTANT)
+    request.session["order_confirmed"] = True
+    request.session["current_order_id"] = order.id
+    request.session.modified = True
 
-    if request.session.get("order_confirmed"):
-        return JsonResponse(
-            {"error": "Order already placed"},
-            status=400
-        )
+    # ❌ DO NOT clear cart here (clear after payment success)
     return JsonResponse({"order_id": order.id})
+
+def payment_page(request, order_id):
+    order = Order.objects.get(id=order_id)
+
+    if order.status != "PENDING":
+        return redirect("order_bill", order_id=order.id)
+
+    return render(request, "orders/payment.html", {"order": order})
+
+def payment_success(request, order_id):
+    order = Order.objects.get(id=order_id)
+
+    if order.status == "PAID":
+        return redirect("order_bill", order_id=order.id)
+
+    order.status = "PAID"
+    order.save()
+
+    # clear cart only after payment
+    request.session["cart"] = {}
+    request.session.pop("current_order_id", None)
+
+    return redirect("order_bill", order_id=order.id)
+
+def payment_fail(request, order_id):
+    order = Order.objects.get(id=order_id)
+    order.status = "FAILED"
+    order.save()
+
+    return render(request, "orders/payment_failed.html", {"order": order})

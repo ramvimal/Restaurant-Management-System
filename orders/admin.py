@@ -4,8 +4,8 @@ from .models import Order , OrderItem
 # Register your models here.
 @admin.register(Order)
 class Orderadmin(admin.ModelAdmin):
-    list_display = ('customer_name', 'total_amount','is_paid','created_at')
-    list_filter=('customer_name', 'total_amount','is_paid','created_at')
+    list_display = ('customer_name','status', 'phone','total_amount','created_at')
+    list_filter=('customer_name','status', 'phone','total_amount','created_at')
 
 @admin.register(OrderItem)
 class OrderItemadmin(admin.ModelAdmin):

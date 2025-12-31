@@ -1,0 +1,12 @@
+{% extends "main/home.html" %}
+
+{% block content %}
+<div style="text-align:center;margin-top:80px">
+    <h2 style="color:red">Payment Failed ❌</h2>
+    <p>Order #{{ order.id }}</p>
+
+    <a href="/payment/{{ order.id }}/" class="btn">Retry Payment</a>
+    <br><br>
+    <a href="/" class="btn">Back to Menu</a>
+</div>
+{% endblock %}

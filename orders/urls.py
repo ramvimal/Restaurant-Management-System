@@ -10,5 +10,9 @@ urlpatterns = [
     path('bill/<int:order_id>/', views.order_bill, name='order_bill'),
 
     path('checkout/', views.checkout_page, name='checkout'),          
-    path('checkout/confirm/', views.checkout_confirm, name='checkout_confirm'),  
+    path('checkout/confirm/', views.checkout_confirm, name='checkout_confirm'), 
+    path("payment/<int:order_id>/", views.payment_page, name="payment_page"),
+    path("payment/success/<int:order_id>/", views.payment_success, name="payment_success"),
+    path("payment/fail/<int:order_id>/", views.payment_fail, name="payment_fail"),
+
 ]

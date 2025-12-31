@@ -1,0 +1,45 @@
+{% extends "main/home.html" %}
+
+{% load static %}
+{% block title %} <title>Payment Page</title> {% endblock title %}
+
+{% block content %}
+<button id="payBtn" onclick="startPayment()" style="margin: 120px auto;">Pay Now</button>
+
+<div id="processing" style="display:none;margin-top:20px">
+    <p>Processing payment, please wait...</p>
+</div>
+
+<script>
+function startPayment() {
+    document.getElementById("payBtn").disabled = true;
+    document.getElementById("processing").style.display = "block";
+
+    // simulate payment delay
+    setTimeout(() => {
+        // randomly success or fail
+        const success = Math.random() > 0.3;
+
+        if (success) {
+            window.location.href = "/payment/success/{{ order.id }}/";
+        } else {
+            window.location.href = "/payment/fail/{{ order.id }}/";
+        }
+    }, 2000); // 2 seconds delay
+}
+
+function paymentSuccess() {
+    fetch(`/payment/success/{{ order.id }}/`)
+        .then(() => {
+            window.location.href = `/bill/{{ order.id }}/`;
+        });
+}
+
+function paymentFailed() {
+    fetch(`/payment/fail/{{ order.id }}/`)
+        .then(() => {
+            alert("Payment failed. Please try again.");
+        });
+}
+</script>
+{% endblock %}
