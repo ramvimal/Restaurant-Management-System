@@ -23,4 +23,8 @@ urlpatterns = [
     # ---------------- ORDER ----------------
     path("order-confirmed/<int:order_id>/", views.order_confirmed, name="order_confirmed"),
     path("bill/<int:order_id>/", views.bill_view, name="bill"),
+
+    # ---------------- Bill Pdf ----------------
+    path("bill/pdf/<int:order_id>/", views.bill_pdf, name="bill_pdf"),
+
 ]

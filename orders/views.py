@@ -1,10 +1,13 @@
-from django.shortcuts import render , redirect
+from django.shortcuts import render , redirect , get_object_or_404
 from .models import Order, OrderItem
 from menu.models import MenuItem
-from django.http import JsonResponse
+from django.http import JsonResponse , HttpResponse
 import json
 from django.views.decorators.csrf import csrf_exempt
-from django.shortcuts import get_object_or_404
+from reportlab.lib.pagesizes import A4
+from reportlab.pdfgen import canvas
+from io import BytesIO
+from reportlab.lib import colors
 # Create your views here.
 
 
@@ -208,3 +211,101 @@ def bill_view(request, order_id):
         return redirect(f"/payment/{order.id}/")
 
     return render(request, "orders/bill.html", {"order": order})
+
+def bill_pdf(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+
+    buffer = BytesIO()
+    p = canvas.Canvas(buffer, pagesize=A4)
+    width, height = A4
+    
+    # Starting vertical position
+    y = height - 60
+    center = width / 2
+
+    # --- Header Section (Centered) ---
+    p.setFont("Helvetica-Bold", 14)
+    p.drawCentredString(center, y, "SHREE RAM HOTEL")
+    y -= 18
+    p.setFont("Helvetica", 11)
+    p.drawCentredString(center, y, "Maruti Chowk Rajkot")
+    y -= 25
+
+    # Dashed Line
+    p.setDash(3, 3) 
+    p.line(50, y, width - 50, y)
+    y -= 15
+    p.drawCentredString(center, y, "RECEIPT")
+    y -= 10
+    p.line(50, y, width - 50, y)
+    y -= 25
+
+    # --- Customer & Invoice Details ---
+    p.setFont("Helvetica", 10)
+    p.drawString(50, y, f"Name: {order.customer_name.upper()}")
+    p.drawRightString(width - 50, y, f"Invoice No: {order.id}")
+    y -= 15
+    p.drawString(50, y, "Table: #98") # Static example or use order.table
+    p.drawRightString(width - 50, y, f"Date: {order.created_at.strftime('%d %b %Y')}")
+    y -= 20
+
+    # --- Table Header ---
+    p.line(50, y, width - 50, y)
+    y -= 15
+    p.setFont("Helvetica-Bold", 11)
+    p.drawString(50, y, "Item")
+    p.drawCentredString(center + 20, y, "Price")
+    p.drawCentredString(center + 80, y, "Qty")
+    p.drawRightString(width - 50, y, "Total")
+    y -= 10
+    p.line(50, y, width - 50, y)
+    y -= 20
+
+    # --- Line Items ---
+    p.setFont("Helvetica", 11)
+    subtotal = 0
+    for item in order.items.all():
+        p.drawString(50, y, item.item_name)
+        # Assuming item has a 'price' field
+        p.drawCentredString(center + 20, y, f"₹{item.price}") 
+        p.drawCentredString(center + 80, y, f"{item.quantity:02d}")
+        
+        item_total = item.get_total()
+        subtotal += item_total
+        p.drawRightString(width - 50, y, f"₹{item_total}")
+        y -= 20
+
+    # --- Totals Section ---
+    p.line(50, y, width - 50, y)
+    y -= 20
+    
+    # Final Total
+    p.setFont("Helvetica-Bold", 12)
+    p.drawRightString(width - 50, y, f"Total: ₹{order.total_amount}")
+    y -= 40
+
+    # --- Footer (Thermal Receipt Style) ---
+    p.setDash(1, 0) # Back to solid line
+    p.setStrokeColor(colors.lightgrey)
+    p.line(50, y, width - 50, y)
+    y -= 20
+    
+    p.setFont("Helvetica-Bold", 9)
+    p.drawCentredString(center, y, "**SAVE PAPER SAVE NATURE !!**")
+    y -= 15
+    p.setFont("Helvetica", 8)
+    p.drawCentredString(center, y, "YOU CAN NOW CALL US ON 1800 226344 (TOLL-")
+    y -= 10
+    p.drawCentredString(center, y, "FREE) FOR QUERIES/COMPLAINTS.")
+    y -= 15
+    p.drawCentredString(center, y, f"Time: {order.created_at.strftime('%H:%M')}")
+    y -= 20
+    p.line(50, y, width - 50, y)
+
+    p.showPage()
+    p.save()
+
+    buffer.seek(0)
+    response = HttpResponse(buffer, content_type="application/pdf")
+    response["Content-Disposition"] = f'inline; filename="invoice_{order.id}.pdf"'
+    return response
