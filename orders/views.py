@@ -141,7 +141,7 @@ def checkout_confirm(request):
             quantity=item["quantity"]
         )
         total += item["price"] * item["quantity"]
-
+    print(item["price"])
     order.total_amount = total
     order.save()
 
@@ -159,8 +159,8 @@ def checkout_confirm(request):
 
 
 def payment_page(request, order_id):
-    order = Order.objects.get(id=order_id)
-
+    order = Order.objects.get(id=order_id) 
+      
     if order.status != "PENDING":
         return redirect("order_bill", order_id=order.id)
 
