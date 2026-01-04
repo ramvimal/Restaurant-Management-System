@@ -23,10 +23,10 @@
         </div>
 
         <div class="nav-actions">
-            <div class="admin-link">
+            <a href="/admin" class="admin-link">
                 <span class="settings-icon">⚙</span>
-                <a href="/admin">Admin</a>
-            </div>
+                <span>Admin</span>
+            </a>
             {% if request.path != '/checkout/' or request.path != '/bill/' %}
                 <button class="cart-btn" id="cartBtn">
                     <span class="cart-icon">🛒</span>

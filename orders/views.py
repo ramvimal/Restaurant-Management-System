@@ -153,11 +153,6 @@ def checkout_confirm(request):
 
 # -------------------- PAYMENT --------------------
 
-
-
-
-
-
 def payment_page(request, order_id):
     order = Order.objects.get(id=order_id) 
       
