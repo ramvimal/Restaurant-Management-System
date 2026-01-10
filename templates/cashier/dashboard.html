@@ -13,48 +13,80 @@
         <span class="live-badge">LIVE</span>
     </header>
 
+    <section class="stats-grid">
+        <div class="stat-card">
+            <i class="fas fa-file-alt icon-orange"></i>
+            <div class="stat-info">
+                <span>🗒️</span>
+                <div class="ldl-val">
+                    <span class="stat-label">Pending Orders</span>
+                    <span class="stat-value">{{pending_orders}}</span>
+                </div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <i class="fas fa-chart-line icon-green"></i>
+            <div class="stat-info">
+                <span>🗒️</span>
+                <div>
+                    <span class="stat-label">Total Revenue</span>
+                    <span class="stat-value">$7788.00</span>
+                </div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <i class="fas fa-utensils icon-brown"></i>
+            <div class="stat-info">
+                <span>🗒️</span>
+                <div>
+                    <span class="stat-label">Menu Items</span>
+                    <span id="menu-count" class="stat-value">{{menu_items}}</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <div class="filter-bar">
         <button onclick="filterOrders('ALL')" class="active">All</button>
         <button onclick="filterOrders('PAID')">Paid</button>
         <button onclick="filterOrders('PENDING')">Pending</button>
     </div>
-
+    
     <div class="order-list" id="orderList">
         {% for order in orders %}
-        <div class="order-card" data-status="{{ order.status }}">
-            <div class="order-left">
-                <h3>Order #{{ order.id }}</h3>
-                <p><b>Name : </b>{{ order.customer_name }}</p>
-                <small><b>Mobile : </b>{{ order.phone }}</small>
+            <div class="order-card" data-status="{{ order.status }}">
+                <div class="order-left">
+                    <div style="display: flex;">
+                        <p>{{ order.customer_name }}</p>
+                        {% if order.status == "PAID" %}
+                        <span class="status paid" style="margin-left:5px;">PAID</span>
+                        {% else %}
+                        <span class="status pending" style="margin-left:5px;">PENDING</span>
+                        {% endif %}
+                    </div>
+                    <span class="time"><b>📅 </b>{{ order.created_at|date:"M-d" }}, {{ order.created_at|date:"h:i" }}</span>
+                </div>
+                
+                <div class="order-center">
+                    <span class="amount">₹{{ order.total_amount }}</span>
+                    <span class="time"><b>Order Id : #</b>{{ order.id}}</span>
+                </div>
+                
+                <div class="order-right">
+                    <a href="/bill/{{ order.id }}/" class="btn">View</a>
+                </div>
             </div>
-
-            <div class="order-center">
-                <span class="amount">₹{{ order.total_amount }}</span>
-                <span class="time"><b>Time : </b>{{ order.created_at|date:"H:i" }}</span>
-                <span class="time"><b>Date : </b>{{ order.created_at|date:"d-m-Y" }}</span>
-            </div>
-
-            <div class="order-right">
-                {% if order.status == "PAID" %}
-                    <span class="status paid">PAID</span>
-                {% else %}
-                    <span class="status pending">PENDING</span>
-                {% endif %}
-
-                <a href="/bill/{{ order.id }}/" class="btn">View</a>
-            </div>
-        </div>
         {% empty %}
             <p class="no-orders">No orders yet</p>
         {% endfor %}
-    </div>
-
+        </div>   
+    </div>   
 </div>
 {% endblock %}
 
 {% block script %}
 <script src="{% static 'cashier/cashier_dashboard.js' %}"></script>
-{% endblock %}
+{% endblock %}{{ order.created_at|date:"H:i" }}
 
 {% comment %} {% extends "main/home.html" %}
 {% load static %}

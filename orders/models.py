@@ -10,6 +10,7 @@ class Order(models.Model):
     phone = models.CharField(max_length=15)
     created_at = models.DateTimeField(auto_now_add=True)
     address = models.TextField(default="no")
+
     status_choices = [
         ('PENDING', 'Pending'),
         ('PAID', 'Paid'),
@@ -21,7 +22,7 @@ class Order(models.Model):
         choices=status_choices,
         default='PENDING'
     )
-
+    
 
 
 class OrderItem(models.Model):

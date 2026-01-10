@@ -46,6 +46,10 @@ INSTALLED_APPS = [
     'cashier',
 ]
 
+LOGIN_URL = "/login/"
+LOGIN_REDIRECT_URL = "/cashier/"
+LOGOUT_REDIRECT_URL = "/login/"
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

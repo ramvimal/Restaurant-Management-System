@@ -55,6 +55,7 @@
 //     modal.style.display = "none";
 //     alert("Item added successfully!");
 // });
+
 function filterOrders(status) {
     const cards = document.querySelectorAll(".order-card");
     const buttons = document.querySelectorAll(".filter-bar button");
@@ -73,13 +74,13 @@ function filterOrders(status) {
 }
 
 // Optional auto refresh (every 10 sec)
-setInterval(() => {
-    fetch(window.location.href)
-        .then(res => res.text())
-        .then(html => {
-            const temp = document.createElement("div");
-            temp.innerHTML = html;
-            document.getElementById("orderList").innerHTML =
-                temp.querySelector("#orderList").innerHTML;
-        });
-}, 10000);
+// setInterval(() => {
+//     fetch(window.location.href)
+//         .then(res => res.text())
+//         .then(html => {
+//             const temp = document.createElement("div");
+//             temp.innerHTML = html;
+//             document.getElementById("orderList").innerHTML =
+//                 temp.querySelector("#orderList").innerHTML;
+//         });
+// }, 2000);

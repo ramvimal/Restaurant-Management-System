@@ -2,21 +2,22 @@
 # from . import views
 
 # urlpatterns = [
-#     path("login/", views.cashier_login, name="cashier_login"),
 #     path('dashboard/', views.cashier_dashboard, name='cashier_dashboard'),
-#     path("logout/", views.cashier_logout, name="cashier_logout"),
 #     path("order/<int:order_id>/", views.cashier_order_detail, name="cashier_order_detail"),
 # ]
 
 from django.urls import path
 from . import views
 
-urlpatterns = [
-    # ================= CASHIER =================
+urlpatterns = [    
+    path("login/", views.cashier_login, name="cashier_login"),
     path("cashier/", views.cashier_dashboard, name="cashier_dashboard"),
+    path("logout/", views.cashier_logout, name="cashier_logout"),
     path(
         "cashier/order-complete/<int:order_id>/",
         views.mark_order_completed,
         name="order_complete"
     ),
 ]
+
+

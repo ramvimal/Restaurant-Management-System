@@ -1,8 +1,9 @@
-# from django.shortcuts import render, redirect, get_object_or_404
-# from django.contrib.auth import authenticate, login, logout
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth import authenticate, login, logout
 # from django.contrib.auth.models import Group
-# from orders.models import Order 
-# from menu.models import MenuItem
+from orders.models import Order 
+from menu.models import MenuItem
+from django.http import JsonResponse
 
 
 # def cashier_login(request):
@@ -38,9 +39,6 @@
 #                 "total_menu":total_menu,
 #                 "orders":orders})
 
-# def cashier_logout(request):
-#     logout(request)
-#     return redirect("cashier_login")
     
 
 # def cashier_order_detail(request, order_id):
@@ -59,27 +57,40 @@
 #     })
 
 
-from django.shortcuts import render
-from django.http import JsonResponse
-from orders.models import Order
 
-# ================================
-# Cashier Dashboard
-# ================================
+def cashier_login(request):
+    if request.method == "POST":
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+
+        user = authenticate(request, username=username, password=password)
+
+        if user and user.groups.filter(name="Cashier").exists():
+            login(request, user)
+            return redirect("cashier_dashboard")
+
+        return render(request, "cashier/login.html", {
+            "error": "Invalid credentials or not a cashier"
+        })
+
+    return render(request, "cashier/login.html")
+
+def cashier_logout(request):
+    logout(request)
+    return redirect("cashier_login")
+
 def cashier_dashboard(request):
-    """
-    Show all active orders to cashier
-    FAILED orders are hidden
-    """
     orders = Order.objects.exclude(status="FAILED").order_by("-created_at")
+    pending_orders = Order.objects.filter(status="PENDING").count()
+    menu_items = MenuItem.objects.count()
     return render(request, "cashier/dashboard.html", {
-        "orders": orders
+        "orders": orders,
+        "pending_orders":pending_orders,
+        "menu_items":menu_items,
     })
 
 
-# ================================
-# Optional: Mark Order Completed
-# ================================
+
 def mark_order_completed(request, order_id):
     """
     Cashier marks order as completed (after serving)
