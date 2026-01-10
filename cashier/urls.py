@@ -18,6 +18,8 @@ urlpatterns = [
         views.mark_order_completed,
         name="order_complete"
     ),
+    path("cashier/update-status/<int:order_id>/", views.update_order_status)
+
 ]
 
 

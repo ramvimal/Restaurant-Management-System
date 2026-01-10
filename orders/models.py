@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 class Order(models.Model):
     customer_name = models.CharField(
@@ -22,6 +23,14 @@ class Order(models.Model):
         choices=status_choices,
         default='PENDING'
     )
+
+    status_updated_at = models.DateTimeField(auto_now=True)
+
+    @property
+    def is_status_locked(self):
+        if self.status != "PAID":
+            return False
+        return timezone.now() > self.status_updated_at + timezone.timedelta(hours=5)
     
 
 

@@ -10,7 +10,7 @@
     padding: 0 30px;
     background: #f7f7f7;
     min-height: 100vh;
-    border: 2px solid red;
+    /* border: 2px solid red; */
     position: relative;
     top: 67px;
 }
@@ -110,6 +110,9 @@
     align-items: center;
     /* border: 2px solid red; */
     position: relative;
+    &:hover{
+        background-color: rgb(211, 211, 211);
+    }
 }
 
 .order-left{
@@ -128,8 +131,8 @@
 .order-center{
     /* border: 2px solid red; */
     text-align: center;
-    position: relative;
-    left:10%;
+    position:absolute;
+    left:23%;
 }
 .order-center span{
     padding: 3px;
@@ -169,6 +172,10 @@
     /* border: 2px solid red; */
     position: absolute;
     right:20px;
+}
+
+.order-right option{
+    border: 2px solid red;
 }
 
 .btn {

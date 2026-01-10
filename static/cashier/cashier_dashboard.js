@@ -73,6 +73,35 @@ function filterOrders(status) {
     });
 }
 
+
+function updateStatus(select, orderId) {
+    fetch(`/cashier/update-status/${orderId}/`, {
+        method: "POST",
+        headers: {
+            "X-CSRFToken": getCSRFToken(),
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: `status=${select.value}`
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.error) {
+            alert(data.error);
+            location.reload();
+        }
+    })
+    .catch(err => {
+        console.error(err);
+        alert("Something went wrong");
+    });
+
+}
+
+function getCSRFToken() {
+    const token = document.querySelector('[name=csrfmiddlewaretoken]');
+    return token ? token.value : "";
+}
+
 // Optional auto refresh (every 10 sec)
 // setInterval(() => {
 //     fetch(window.location.href)

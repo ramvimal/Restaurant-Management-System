@@ -72,8 +72,22 @@
                     <span class="time"><b>Order Id : #</b>{{ order.id}}</span>
                 </div>
                 
+                <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+
                 <div class="order-right">
-                    <a href="/bill/{{ order.id }}/" class="btn">View</a>
+                    <select onchange="updateStatus(this, {{ order.id }})"
+                        {% if order.is_status_locked %} disabled {% endif %}>
+                        
+                        <option value="PENDING" {% if order.status == "PENDING" %}selected{% endif %}>
+                            Pending
+                        </option>
+                        <option value="PAID" {% if order.status == "PAID" %}selected{% endif %}>
+                            Paid
+                        </option>
+                        <option value="FAILED" {% if order.status == "FAILED" %}selected{% endif %}>
+                            Failed
+                        </option>
+                    </select>
                 </div>
             </div>
         {% empty %}
