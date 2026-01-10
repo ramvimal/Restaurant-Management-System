@@ -111,7 +111,7 @@
     /* border: 2px solid red; */
     position: relative;
     &:hover{
-        background-color: rgb(211, 211, 211);
+        background-color: rgba(224, 224, 224, 0.199);
     }
 }
 
