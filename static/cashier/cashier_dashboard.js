@@ -88,14 +88,23 @@ function updateStatus(select, orderId) {
         if (data.error) {
             alert(data.error);
             location.reload();
+            return;
+        }
+
+        // ✅ IMMEDIATE UI SYNC
+        select.value = data.status;
+
+        // 🔒 Disable dropdown only if locked
+        if (data.locked) {
+            select.disabled = true;
         }
     })
-    .catch(err => {
-        console.error(err);
-        alert("Something went wrong");
+    .catch(() => {
+        alert("Server error");
+        location.reload();
     });
-
 }
+
 
 function getCSRFToken() {
     const token = document.querySelector('[name=csrfmiddlewaretoken]');

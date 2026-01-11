@@ -77,7 +77,9 @@
                 <div class="order-right">
                     <select onchange="updateStatus(this, {{ order.id }})"
                         {% if order.is_status_locked %} disabled {% endif %}>
-                        
+                        <option value="SELECT STATUS" selected>
+                            Select Status
+                        </option>
                         <option value="PENDING" {% if order.status == "PENDING" %}selected{% endif %}>
                             Pending
                         </option>

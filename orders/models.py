@@ -13,24 +13,28 @@ class Order(models.Model):
     address = models.TextField(default="no")
 
     status_choices = [
+        ('SELECT STATUS','Select Status'),
         ('PENDING', 'Pending'),
         ('PAID', 'Paid'),
         ('FAILED', 'Failed'),
     ]
 
     status = models.CharField(
-        max_length=10,
+        max_length=13,
         choices=status_choices,
-        default='PENDING'
+        default='SELECT STATUS'
     )
 
     status_updated_at = models.DateTimeField(auto_now=True)
+    paid_at = models.DateTimeField(null=True, blank=True)
 
     @property
     def is_status_locked(self):
-        if self.status != "PAID":
+        if self.status != "PAID" or not self.paid_at:
             return False
-        return timezone.now() > self.status_updated_at + timezone.timedelta(hours=5)
+        return timezone.now() > self.paid_at + timezone.timedelta(seconds=10)
+    
+
     
 
 

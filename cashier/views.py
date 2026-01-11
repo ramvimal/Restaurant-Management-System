@@ -4,7 +4,8 @@ from django.utils import timezone
 from orders.models import Order 
 from menu.models import MenuItem
 from django.http import JsonResponse
-from django.views.decorators.http import require_POST
+from django.views.decorators.http import require_POST 
+from django.contrib.auth.decorators import login_required, user_passes_test
 
 
 def cashier_login(request):
@@ -24,10 +25,15 @@ def cashier_login(request):
 
     return render(request, "cashier/login.html")
 
+def is_cashier(user):
+    return user.groups.filter(name="Cashier").exists()
+
 def cashier_logout(request):
     logout(request)
     return redirect("cashier_login")
 
+@login_required(login_url="cashier_login")
+@user_passes_test(is_cashier, login_url="cashier_login")
 def cashier_dashboard(request):
     orders = Order.objects.exclude(status="FAILED").order_by("-created_at")
     pending_orders = Order.objects.filter(status="PENDING").count()
@@ -37,6 +43,7 @@ def cashier_dashboard(request):
         "pending_orders":pending_orders,
         "menu_items":menu_items,
     })
+
 
 
 
@@ -54,21 +61,29 @@ def mark_order_completed(request, order_id):
 def update_order_status(request, order_id):
     order = get_object_or_404(Order, id=order_id)
 
-    if order.status == "PAID":
-        if timezone.now() > order.status_updated_at + timezone.timedelta(seconds=5):
-            return JsonResponse({"error": "Status locked"}, status=403)
-
-    
     new_status = request.POST.get("status")
 
-    if new_status not in ["PENDING", "PAID", "FAILED"]:
+    if new_status not in ["PENDING", "PAID", "FAILED","SELECT STATUS"]:
         return JsonResponse({"error": "Invalid status"}, status=400)
 
+
+    if order.status == "PAID" and new_status != "PAID":
+        if order.paid_at and order.is_status_locked:
+            return JsonResponse({"error": "Status locked"}, status=403)
+
+    # ✅ Set paid_at ONLY first time PAID is selected
+    if new_status == "PAID" and order.paid_at is None:
+        order.paid_at = timezone.now()
+
     order.status = new_status
-    order.status_updated_at = timezone.now()
     order.save()
 
-    return JsonResponse({"success": True})
+    return JsonResponse({
+        "success": True,
+        "status": order.status,
+        "locked": order.is_status_locked
+    })
+
 
 # def cashier_login(request):
 #     if request.method == "POST":  

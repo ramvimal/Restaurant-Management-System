@@ -23,12 +23,12 @@ urlpatterns = [
     path('', include('menu.urls')),
     path('', include('orders.urls')),
     path('', include('cashier.urls')),
-    path("login/", auth_views.LoginView.as_view(
-        template_name="cashier/login.html"
-    ), name="login"),
-    path("logout/", auth_views.LogoutView.as_view(), name="logout"),
+    # path("login/", auth_views.LoginView.as_view(
+    #     template_name="cashier/login.html"
+    # ), name="login"),
+    # path("logout/", auth_views.LogoutView.as_view(), name="logout"),
 
-    path("cashier/", include("cashier.urls")),
+    # path("cashier/", include("cashier.urls")),
 ]
 
 admin.site.site_title = "Admin Panel"
