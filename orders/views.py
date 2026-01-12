@@ -210,6 +210,9 @@ def bill_view(request, order_id):
 def bill_pdf(request, order_id):
     order = get_object_or_404(Order, id=order_id)
 
+    if order.status != "PAID":
+        return redirect(f"/payment/{order.id}/")
+
     buffer = BytesIO()
     p = canvas.Canvas(buffer, pagesize=A4)
     width, height = A4

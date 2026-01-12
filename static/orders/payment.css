@@ -68,6 +68,50 @@
     color: #16bb1e; /* Green only for the numbers */
 }
 
+.checkout-container {
+    background-color: white;
+    width: 450px;
+    display: flex;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* Form Section */
+.payment-form {
+    padding: 40px;
+    flex: 1.5;
+}
+
+.payment-form h2 {
+    margin-top: 0;
+    color: #333;
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #666;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.inline-inputs {
+    display: flex;
+    gap: 20px;
+}
+
 /* --- Updated Pay Now Button --- */
 #payBtn {
     width: 80%;
