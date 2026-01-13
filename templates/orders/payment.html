@@ -102,7 +102,9 @@ btn.addEventListener("click", (e) => {
 
 
 function startPayment() {
+
     activateStep(2);
+
     document.getElementById("payBtn").style.display = "none";
     document.getElementById("processing").classList.remove("hidden");
 
@@ -112,7 +114,6 @@ function startPayment() {
         fetch("/payment/success/{{ order.id }}/")
             .then(res => res.json())
             .then(() => {
-                // ⏳ wait 2 sec, then go to confirmation page
                 setTimeout(() => {
                     window.location.href = "/order-confirmed/{{ order.id }}/";
                 }, 2000);
@@ -120,6 +121,7 @@ function startPayment() {
 
     }, 3000);
 }
+
 </script>
 
 
