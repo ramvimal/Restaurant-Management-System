@@ -16,7 +16,6 @@ urlpatterns = [
     # path("cashier/order-complete/<int:order_id>/",views.mark_order_completed,name="order_complete"),
     path("cashier/update-status/<int:order_id>/", views.update_order_status, name="update_order_status"),
     path("cashier/pending-count/", views.pending_orders_count, name="pending_orders_count"),
-
 ]
 
 

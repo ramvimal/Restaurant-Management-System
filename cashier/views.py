@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
-from django.utils import timezone
 from orders.models import Order 
 from menu.models import MenuItem
 from django.http import JsonResponse
@@ -34,10 +33,16 @@ def is_cashier(user):
 def cashier_dashboard(request):
     
     orders = Order.objects.exclude(status="FAILED").order_by("-created_at")
+    menu_items_count = MenuItem.objects.count()
+    total_orders = Order.objects.count()
+
     return render(request,"cashier/dashboard.html",
     {
         "orders":orders,
+        "menu_items":menu_items_count,
+        "total_orders":total_orders,
     })
+
 
 @login_required
 @require_GET
@@ -84,41 +89,3 @@ def update_order_status(request, order_id):
         "success": True,
         "status": order.status
     })
-
-
-
-# def cashier_login(request):
-#     if request.method == "POST":  
-#         username = request.POST.get("username")
-#         password = request.POST.get("password")
-
-#         user = authenticate(request, username=username, password=password)
-#         if user and user.groups.filter(name="Cashier").exists():
-#             print("success")
-#             login(request, user)
-#             return redirect("cashier_dashboard")
-
-#         return render(request, "cashier/login.html", {
-#             "error": "Invalid credentials or not a cashier"
-#         })
-
-#     return render(request, "cashier/login.html")
-
-
-# def cashier_dashboard(request):
-#     if not request.user.groups.filter(name="Cashier").exists():
-#         return redirect("cashier_login")
-    
-#     panding_orders = Order.objects.filter(status="PENDING").count()
-#     total_menu = MenuItem.objects.count()
-#     orders = Order.objects.all()
-#     Order.objects.exclude(status="FAILED").order_by("-created_at")
-
-    
-#     return render(request,"cashier/dashboard.html",
-#                 {"panding_orders":panding_orders,
-#                 "total_menu":total_menu,
-#                 "orders":orders})
-
-    
-
