@@ -32,13 +32,13 @@
             <a href="/" class="admin-link">
                 <span>Go Back</span>
             </a>
-            {% elif request.path == "/cashier/dashboard" %}
-            <a href="/logout" class="admin-link">
+            {% elif request.path == "/cashier/dashboard/" %}
+            <a href="/logout" class="logout">
                 <span>Logout</span>
             </a>
             {% endif %}
 
-            {% if request.path != '/checkout/' or request.path != '/bill/' %}
+            {% if request.path == "/" %}
                 <button class="cart-btn" id="cartBtn">
                     <span class="cart-icon">🛒</span>
                 </button>

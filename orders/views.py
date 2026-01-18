@@ -192,15 +192,15 @@ def order_confirmed(request, order_id):
 def bill_view(request, order_id):
     order = get_object_or_404(Order, id=order_id)
 
-    if order.status != "DELIVERED":
-            return redirect("/cashier/dashboard/")
+    if order.status == "PENDING":
+            return redirect(f"/payment/{order.id}/")
 
     return render(request, "orders/bill.html", {"order": order})
 
 def bill_pdf(request, order_id):
     order = get_object_or_404(Order, id=order_id)
 
-    if order.status != "PAID":
+    if order.status == "PENDING":
         return redirect(f"/payment/{order.id}/")
 
     buffer = BytesIO()

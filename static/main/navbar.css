@@ -18,7 +18,7 @@ body {
     background-color: #fff;
     box-shadow: 0 2px 5px rgba(0,0,0,0.05);
     z-index: 500;
-
+    
 }
 
 .logo-section {
@@ -33,9 +33,7 @@ body {
     border-radius: 12px;
     display: flex;
     align-items: center;
-    /* transition: padding 0.2s; */
 }
-
 
 .brand-text h1 {
     margin: 0;
@@ -55,7 +53,7 @@ body {
     gap: 25px;
 }
 
-.admin-link {
+.admin-link,.logout {
     padding: 8px 10px;
     border-radius: 10px;
     display: flex;
@@ -64,11 +62,13 @@ body {
     color: #444;
     cursor: pointer;
     font-size: 0.95rem;
-    text-decoration: none   ;
+    text-decoration: none;
+    font-weight: bold;
     transition: background-color 0.8s;
+    border: 2px solid orange;
 }
 
-.admin-link:hover{
+.admin-link:hover,.logout:hover{
     background-color: rgb(255, 166, 0);
     color: white;
 }
@@ -90,7 +90,6 @@ body {
     box-shadow: 0px 0px 0px 1px #f7941d;
 }
 
-/* when cart is open */
 body.cart-open header,
 body.cart-open nav {
     opacity: 0.4;

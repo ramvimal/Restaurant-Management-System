@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}
-<title>Invoice #{{ order.id }} - Savoria</title>
+<title>Invoice #{{ order.id }} - Shree Ram</title>
 {% endblock title %}
 
 {% block style %}
@@ -49,18 +49,11 @@
             <span class="grand-total-label">Total Payable</span>
             <span class="grand-total-amount">₹{{ order.total_amount }}</span>
         </div>
-        {% if order.status == "PAID" %}
-            <div class="payment_success">
-                <label for="payment status">Payment Status</label>
-                <span style="color:green">Payment Successful Done</span>
-            </div>
-        {% else %}
-            <div class="payment_success">
-                <label for="payment status">Payment Status</label>
-                <span style="color:green">Payment Pending</span>
-            </div>
-        {% endif %}
 
+        <div class="payment_success">
+            <label for="payment status">Payment Status</label>
+            <span style="color:green">Payment Successful Done</span>
+        </div>
 
         <div class="actions">
             <a href="/" class="btn-back">🔙 Back to Menu</a>
