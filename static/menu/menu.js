@@ -112,10 +112,11 @@ function showToast(message, type = "success") {
 }
 
 function addToCart(id) {
-    fetch(`/add-to-cart/${id}/`)
-    .then(res => res.json())
-    .then(data => {
-        updateSideCart(data);          // UI updated
+fetch(`/add-to-cart/${id}/`)
+.then(res => res.json())
+.then(data => {
+    updateSideCart(data);          // UI updated
+        updateCartCount(data.total_items); 
         document.getElementById("cartCount").innerText = data.total_items;
         showToast("Item added to cart 🛒");
     });
@@ -135,6 +136,7 @@ function decreaseQty(id) {
     .then(res => res.json())
     .then(data => {
         updateSideCart(data);
+        updateCartCount(data.total_items); 
         showToast("Quantity decrease");
     });
 }
@@ -144,6 +146,7 @@ function removeItem(id) {
     .then(res => res.json())
     .then(data => {
         updateSideCart(data);
+        updateCartCount(data.total_items);  
         showToast("Item removed from cart", "remove");
     });
 }
@@ -151,6 +154,15 @@ function removeItem(id) {
 document.addEventListener("DOMContentLoaded", () => {
     fetch('/get-cart/')
     .then(res => res.json())
-    .then(updateSideCart);
+    .then(data => {
+        updateSideCart(data);
+        updateCartCount(data.total_items);
+    });
+});
+
+fetch("/cart/clear/")
+    .then(res => res.json())
+    .then(() => {
+        updateCartCount(0);
 });
 

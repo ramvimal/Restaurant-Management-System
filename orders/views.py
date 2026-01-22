@@ -92,7 +92,13 @@ def remove_from_cart(request, item_id):
 def clear_cart(request):
     request.session['cart'] = {}
     request.session.modified = True
-    return JsonResponse({"status": "cart cleared"})
+
+    return JsonResponse({
+        "cart": {},
+        "total_items": 0,
+        "total_price": 0
+    })
+
 
 # -------------------- CHECKOUT --------------------
 

@@ -41,42 +41,28 @@
                 <span>Logout</span>
             </a>
             {% endif %}
-            
+        
             {% if request.path == "/" %}
                 <button class="cart-btn" id="cartBtn">
-                    <span id="cartCount"></span>
+                    <span id="cartCount">0</span>
                     <span class="cart-icon">🛒</span>
                 </button>
-                
-            {% endif %}
+            {% endif %} 
         </div>
     </header>
-    <script>
-        function updateCartCount() {
-            fetch("/get-cart/")
-                .then(res => res.json())
-                .then(data => {
-                    const cartCount = document.getElementById("cartCount");
-                    if (!cartCount) return;
-
-                    if(cartCount.innerText=="")
-                        cartCount.classList.add('hide');
-                    else
-                        cartCount.Style.visibility="visible";
-
-
-                    Cons
-                    cartCount.innerText = data.total_items;
-                    
-                        
-                })
-                .catch(err => console.error("Cart count error", err));
+<script>
+    function updateCartCount(totalItems) {
+        const cartCount = document.getElementById("cartCount");
+        if (!cartCount) return;
+    
+        cartCount.innerText = totalItems;
+    
+        if (totalItems === 0) {
+            cartCount.classList.add("hide");
+        } else {
+            cartCount.classList.remove("hide");
         }
-
-        document.addEventListener("DOMContentLoaded", () => {
-            updateCartCount();
-        });
-
+    }
     </script>
 </body>
 </html>

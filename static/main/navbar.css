@@ -75,8 +75,8 @@ body {
 
 .cart-btn {
     background-color: #f7941d;
-    border: 2px solid red;
     border-radius: 50%;
+    border:none;
     color: white;
     cursor: pointer;
     display: flex;
@@ -89,7 +89,7 @@ body {
 }
 
 .hide{
-    
+    visibility:hidden;
 }
 
 #cartCount{
