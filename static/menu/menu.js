@@ -116,6 +116,7 @@ function addToCart(id) {
     .then(res => res.json())
     .then(data => {
         updateSideCart(data);          // UI updated
+        document.getElementById("cartCount").innerText = data.total_items;
         showToast("Item added to cart 🛒");
     });
 }

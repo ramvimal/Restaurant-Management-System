@@ -8,7 +8,7 @@
         <link rel="stylesheet" href="{% static 'main/navbar.css' %}">
     {% endblock style %}
 </head>
-<body>
+<body>  
     <header class="main-header">
         <div class="logo-section">
             <div class="logo-icon">
@@ -16,10 +16,13 @@
                     <path d="M11,9H9V2H7V9H5V2H3V9c0,2.12,1.66,3.84,3.75,3.97V22h2.5v-9.03C11.34,12.84,13,11.12,13,9V2h-2V9z M16,6v8h3v8h2.5V2 c-3.04,0-5.5,2.46-5.5,5.5V6z"/>
                 </svg>
             </div>
+            
             <div class="brand-text">
                 <h1>Shree Ram</h1>
                 <p>Fine Dining</p>
             </div>
+            
+    
         </div>
 
         <div class="nav-actions">
@@ -27,6 +30,7 @@
             <a href="cashier/dashboard" class="admin-link">
                 <span class="settings-icon">⚙</span>
                 <span>Admin</span>
+                
             </a>
             {% elif request.path == '/login/' %}
             <a href="/" class="admin-link">
@@ -37,13 +41,42 @@
                 <span>Logout</span>
             </a>
             {% endif %}
-
+            
             {% if request.path == "/" %}
                 <button class="cart-btn" id="cartBtn">
+                    <span id="cartCount"></span>
                     <span class="cart-icon">🛒</span>
                 </button>
+                
             {% endif %}
         </div>
     </header>
+    <script>
+        function updateCartCount() {
+            fetch("/get-cart/")
+                .then(res => res.json())
+                .then(data => {
+                    const cartCount = document.getElementById("cartCount");
+                    if (!cartCount) return;
+
+                    if(cartCount.innerText=="")
+                        cartCount.classList.add('hide');
+                    else
+                        cartCount.Style.visibility="visible";
+
+
+                    Cons
+                    cartCount.innerText = data.total_items;
+                    
+                        
+                })
+                .catch(err => console.error("Cart count error", err));
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            updateCartCount();
+        });
+
+    </script>
 </body>
 </html>
