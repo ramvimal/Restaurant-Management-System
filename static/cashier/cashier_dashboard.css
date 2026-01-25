@@ -5,14 +5,205 @@
     --text-dark: #333;
     --shadow: 0 0 9px rgba(0, 0, 0, 0.534);
 }
+#ordersSection,
+#menuSection {
+    margin: 0;
+    padding: 0;
+}
+
+/* Ensure hidden truly removes space */
+.hidden {
+    display: none !important;
+}
+
+
+
+.tab-buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.tab-btn {
+    padding: 8px 16px;
+    border: none;
+    cursor: pointer;
+    background: #eee;
+    border-radius: 6px;
+}
+
+.tab-btn.active {
+    background: #ff9800;
+    color: white;
+}
+
+/* Toggle switch */
+.switch {
+    position: relative;
+    width: 46px;
+    height: 24px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    background-color: #ccc;
+    border-radius: 24px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transition: 0.3s;
+}
+
+.slider::before {
+    content: "";
+    position: absolute;
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    border-radius: 50%;
+    transition: 0.3s;
+}
+
+.switch input:checked + .slider {
+    background-color: #4caf50;
+}
+
+.switch input:checked + .slider::before {
+    transform: translateX(22px);
+}
+
+/* ===== MENU GRID ===== */
+.menu-grid {
+    display: grid;
+    padding: 0 30px;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 18px;
+    margin-top: 80px;
+    /* border:2px solid red; */
+}
+
+/* ===== MENU CARD ===== */
+.menu-item-card {
+    background: #f7f4ef;
+    border-radius: 14px;
+    padding: 14px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    transition: 0.3s;
+}
+
+.menu-item-card:hover {
+    transform: translateY(-3px);
+}
+
+/* Sold out style */
+.menu-item-card.sold-out {
+    opacity: 0.6;
+}
+
+/* ===== IMAGE ===== */
+.menu-img {
+    width: 70px;
+    height: 70px;
+    border-radius: 12px;
+    object-fit: cover;
+}
+
+/* ===== INFO ===== */
+.menu-info {
+    flex: 1;
+}
+
+.menu-info h4 {
+    font-size: 16px;
+    margin: 0;
+    font-weight: 600;
+}
+
+.menu-info .price {
+    color: #ff6a00;
+    font-weight: 600;
+    margin: 4px 0;
+}
+
+/* ===== AVAILABILITY ===== */
+.availability {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 6px;
+}
+
+.status-text {
+    font-size: 13px;
+    color: #555;
+}
+
+/* ===== TOGGLE SWITCH ===== */
+.toggle-switch {
+    position: relative;
+    width: 38px;
+    height: 20px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    background: #ccc;
+    border-radius: 20px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transition: 0.3s;
+}
+
+.slider::before {
+    content: "";
+    position: absolute;
+    height: 14px;
+    width: 14px;
+    left: 3px;
+    bottom: 3px;
+    background: white;
+    border-radius: 50%;
+    transition: 0.3s;
+}
+
+.toggle-switch input:checked + .slider {
+    background: #ff6a00;
+}
+
+.toggle-switch input:checked + .slider::before {
+    transform: translateX(18px);
+}
+
+
 
 .cashier-page {
     padding: 0 30px;
     background: #ffffff;
-    min-height: 100vh;
-    /* border: 2px solid red; */
+    min-height: 35vh;
     position: relative;
     top: 67px;
+    /* border:2px solid red; */
 }
 
 .cashier-header {

@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from orders.models import Order 
-from menu.models import MenuItem
+from menu.models import MenuItem , Category
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST , require_GET
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -35,12 +35,16 @@ def cashier_dashboard(request):
     orders = Order.objects.exclude(status="FAILED").order_by("-created_at")
     menu_items_count = MenuItem.objects.count()
     total_orders = Order.objects.count()
+    menu_items = MenuItem.objects.all()
+    category = Category.objects.all()
 
     return render(request,"cashier/dashboard.html",
     {
         "orders":orders,
         "menu_items":menu_items_count,
         "total_orders":total_orders,
+        "all_menu_items":menu_items,
+        "Category":category,
     })
 
 
@@ -108,4 +112,17 @@ def update_order_status(request, order_id):
     return JsonResponse({
         "success": True,
         "status": order.status
+    })
+
+@require_POST
+@login_required
+@user_passes_test(is_cashier)
+def toggle_menu_item(request, item_id):
+    item = get_object_or_404(MenuItem, id=item_id)
+    item.available = not item.available
+    item.save()
+
+    return JsonResponse({
+        "success": True,
+        "available": item.available
     })

@@ -146,3 +146,57 @@ function closeModal() {
     document.getElementById("orderModal").classList.add("hidden");
 }
 
+function showSection(section, btn) {
+    document.getElementById("ordersSection").classList.add("hidden");
+    document.getElementById("menuSection").classList.add("hidden");
+
+    document.querySelectorAll(".tab-btn").forEach(b =>
+        b.classList.remove("active")
+    );
+
+    if (section === "orders") {
+        document.getElementById("ordersSection").classList.remove("hidden");
+    } else {
+        document.getElementById("menuSection").classList.remove("hidden");
+    }
+
+    btn.classList.add("active");
+}
+
+
+
+function toggleMenuItem(itemId, checkbox) {
+    fetch(`/cashier/toggle-menu/${itemId}/`, {
+        method: "POST",
+        headers: {
+            "X-CSRFToken": getCSRFToken(),
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            available: checkbox.checked
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (!data.success) {
+            checkbox.checked = !checkbox.checked;
+            alert("Failed to update");
+            return;
+        }
+
+        const card = checkbox.closest(".menu-item-card");
+        const text = card.querySelector(".status-text");
+
+        if (checkbox.checked) {
+            card.classList.remove("sold-out");
+            text.innerText = "Available";
+        } else {
+            card.classList.add("sold-out");
+            text.innerText = "Sold Out";
+        }
+    })
+    .catch(() => {
+        checkbox.checked = !checkbox.checked;
+        alert("Server error");
+    });
+}

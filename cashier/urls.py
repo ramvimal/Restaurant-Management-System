@@ -9,6 +9,7 @@ urlpatterns = [
     path("cashier/update-status/<int:order_id>/", views.update_order_status, name="update_order_status"),
     path("cashier/pending-count/", views.pending_orders_count, name="pending_orders_count"),
     path("cashier/order/<int:order_id>/", views.cashier_order_detail, name="cashier_order_detail"),
+    path("cashier/toggle-menu/<int:item_id>/", views.toggle_menu_item),
 ]
 
 
