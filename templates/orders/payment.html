@@ -1,129 +1,142 @@
 {% extends "main/home.html" %}
 {% load static %}
 
-{% block title %}<title>Payment</title>{% endblock %}
+{% block title %}<title>Secure Payment</title>{% endblock %}
 
 {% block style %}
 <link rel="stylesheet" href="{% static 'orders/payment.css' %}">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 {% endblock style %}
 
 {% block content %}
-<div class="payment-box">
+<div class="payment-wrapper">
 
-    <!-- STEPS -->
-    <div class="steps">
-        <div class="step active" id="step1">1<br><small>Pay</small></div>
-        <div class="step" id="step2">2<br><small>Processing</small></div>
-        <div class="step" id="step3">3<br><small>Done</small></div>
-    </div>
-    <div class="container_order_detail">
-        <div>
-            <strong>Order ID</strong>
-            <span>#{{ order.id }}</span>
+    <div class="payment-container">
+
+        <!-- Left Side: Order Summary -->
+        <div class="order-summary">
+            <h3>Order Summary</h3>
+            <div class="summary-item">
+                <span>Order ID</span>
+                <span class="value">#{{ order.id }}</span>
+            </div>
+            <div class="summary-item">
+                <span>Total Amount</span>
+                <span class="total-value">₹{{ order.total_amount }}</span>
+            </div>
+            <div class="secure-badge">
+                <i class="fas fa-lock"></i> 100% Secure Payment
+            </div>
         </div>
-        <div style="border-bottom: none;">
-            <strong>Total Amount</strong>
-            <span>₹{{ order.total_amount }}</span>
-        </div>
-    </div>
 
-    <div class="checkout-container">
-        <div class="payment-form">
-            <div id='form_cont'>
-                <h2>Payment Details</h2>
-                <div class="input-group">
-                    <label for="name">Cardholder Name</label>
-                    <input type="text" class="pay-input" value="vimal" placeholder="John Doe" required>
-                </div>
+        <!-- Right Side: Payment Form -->
+        <div class="payment-content">
 
-                <div class="input-group">
-                    <label for="card">Card Number</label>
-                    <input type="text" class="pay-input" value="1234 5678 9101 1121" placeholder="1234 5678 9101 1121" required>
-                </div>
-
-                <div class="inline-inputs">
-                    <div class="input-group">
-                        <label for="expiry">Expiry Date</label>
-                        <input type="text" class="pay-input" value="09/25" placeholder="MM/YY" required>
-                    </div>
-                    <div class="input-group">
-                        <label for="cvv">CVV</label>
-                        <input type="password" class="pay-input" value="787" placeholder="123" required>
-                    </div>
-                </div>
-  
-                <button type="button" id="payBtn">
-                    Pay Now
+            <!-- Payment Method Toggle -->
+            <div class="payment-methods">
+                <button class="method-btn active" data-method="card">
+                    <i class="fas fa-credit-card"></i> Credit Card
+                </button>
+                <button class="method-btn" data-method="cash">
+                    <i class="fas fa-money-bill-wave"></i> Cash
                 </button>
             </div>
-            <div id="processing" class="hidden">
-                <p>Connecting to bank...</p>
-                <div class="loader"></div>
+
+            <!-- Credit Card Section -->
+            <div id="method-card" class="payment-section">
+                <div class="card-visual-container">
+                    <div class="credit-card" id="creditCard">
+                        <div class="card-front">
+                            <div class="card-chip"></div>
+                            <div class="card-logo">VISA</div>
+                            <div class="card-number" id="visual-number">#### #### #### ####</div>
+                            <div class="card-holder">
+                                <label>Card Holder</label>
+                                <div id="visual-name">FULL NAME</div>
+                            </div>
+                            <div class="card-expiry">
+                                <label>Expires</label>
+                                <div id="visual-expiry">MM/YY</div>
+                            </div>
+                        </div>
+                        <div class="card-back">
+                            <div class="magnetic-strip"></div>
+                            <div class="signature-box"></div>
+                            <div class="cvv-box">
+                                <label>CVV</label>
+                                <div id="visual-cvv">***</div>
+                            </div>
+                            <div class="card-logo-back">VISA</div>
+                        </div>
+                    </div>
+                </div>
+
+                <form id="paymentForm" class="payment-form">
+                    <div class="form-group">
+                        <label for="cardName">Cardholder Name</label>
+                        <input type="text" id="cardName" class="pay-input" placeholder="John Doe" maxlength="25"
+                            autocomplete="off" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cardNumber">Card Number</label>
+                        <input type="text" id="cardNumber" class="pay-input" placeholder="0000 0000 0000 0000"
+                            maxlength="19" autocomplete="off" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group half">
+                            <label for="cardExpiry">Expiry Date</label>
+                            <input type="text" id="cardExpiry" class="pay-input" placeholder="MM/YY" maxlength="5"
+                                autocomplete="off" required>
+                        </div>
+                        <div class="form-group half">
+                            <label for="cardCvv">CVV</label>
+                            <input type="password" id="cardCvv" class="pay-input" placeholder="123" maxlength="3"
+                                autocomplete="off" required>
+                        </div>
+                    </div>
+
+                    <button type="submit" id="payBtn" class="pay-btn">
+                        Pay ₹{{ order.total_amount }}
+                    </button>
+                </form>
             </div>
+
+            <!-- Cash Section -->
+            <div id="method-cash" class="payment-section hidden-section">
+                <div class="cash-visual">
+                    <i class="fas fa-wallet"></i>
+                    <p>Please pay at the counter or to the delivery agent.</p>
+                </div>
+                <button type="button" id="confirmCashBtn" class="pay-btn cash-btn" >
+                    Confirm Order (Pay Cash)
+                </button>
+            </div>
+
+            <div id="processing" class="processing-overlay hidden">
+                <div class="spinner"></div>
+                <p>Processing Payment...</p>
+            </div>
+
+            <div id="success" class="success-overlay hidden">
+                <div class="checkmark-circle">
+                    <div class="background"></div>
+                    <div class="checkmark draw"></div>
+                </div>
+                <h2>Payment Successful!</h2>
+                <p>Redirecting...</p>
+            </div>
+
         </div>
     </div>
-
 </div>
-
 {% endblock %}
+
 {% block script %}
-
 <script>
-function goToMenu() {
-    window.location.href = "/";
-}
-
-function activateStep(stepNo) {
-    document.querySelectorAll(".step").forEach(s => s.classList.remove("active"));
-    document.getElementById("step" + stepNo).classList.add("active");
-}
-const btn = document.getElementById("payBtn");
-
-btn.addEventListener("click", (e) => {
-    e.preventDefault();
-
-    const inputs = document.querySelectorAll(".pay-input");
-    let isInputEmpty = false;
-
-    inputs.forEach(input => {
-        if (input.value.trim() === "") {
-            isInputEmpty = true;
-        }
-    });
-
-    if (isInputEmpty) {
-        alert("Please fill the form");
-        return;
-    }
-
-    document.getElementById("form_cont").style.display = "none";
-    startPayment();
-});
-
-
-function startPayment() {
-
-    activateStep(2);
-
-    document.getElementById("payBtn").style.display = "none";
-    document.getElementById("processing").classList.remove("hidden");
-
-    setTimeout(() => {
-        activateStep(3);
-
-        fetch("/payment/success/{{ order.id }}/")
-            .then(res => res.json())
-            .then(() => {
-                setTimeout(() => {
-                    window.location.href = "/order-confirmed/{{ order.id }}/";
-                }, 2000);
-            });
-
-    }, 3000);
-}
-
+    // Pass order ID to external JS if needed, or handle redirection here
+    const ORDER_ID = "{{ order.id }}";
 </script>
-
-
-
+<script src="{% static 'orders/payment.js' %}"></script>
 {% endblock script %}

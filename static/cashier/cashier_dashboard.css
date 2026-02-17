@@ -9,6 +9,7 @@
 #menuSection {
     margin: 0;
     padding: 0;
+    min-height: 60vh;
 }
 
 /* Ensure hidden truly removes space */
@@ -88,7 +89,6 @@
     padding: 0 30px;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 18px;
-    /* border:2px solid red; */
 }
 
 /* ===== MENU CARD ===== */

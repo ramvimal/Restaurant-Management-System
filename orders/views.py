@@ -174,6 +174,13 @@ def payment_success(request, order_id):
     if order.status != "PENDING":
         return JsonResponse({"message": "Order already confirmed"})
 
+    # Get Payment Mode from GET request (default to CARD if not provided, or handle error)
+    payment_mode = request.GET.get('mode', 'CARD') 
+    
+    # Validate against choices if necessary, or let model validation handle it
+    if payment_mode in dict(Order.payment_choices):
+        order.payment_mode = payment_mode
+    
     order.status = "CONFIRMED"
     order.save()
 
@@ -239,7 +246,7 @@ def bill_pdf(request, order_id):
     p.drawString(50, y, f"Name: {order.customer_name.upper()}")
     p.drawRightString(width - 50, y, f"Invoice No: {order.id}")
     y -= 15
-    p.drawString(50, y, "Table: #98") # Static example or use order.table
+    p.drawString(50, y, f"Payment Mode: {order.payment_mode}")
     p.drawRightString(width - 50, y, f"Date: {order.created_at.strftime('%d %b %Y')}")
     y -= 20
 

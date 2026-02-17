@@ -12,14 +12,15 @@
 {% block content %}
 <div class="bill-wrapper">
     <div class="bill-card">
-        
-            <div class="bill-header">
-                <div>
-                    <h1 class="brand-name">Shree Ram</h1>
+
+        <div class="bill-header">
+            <div>
+                <h1 class="brand-name">Shree Ram</h1>
                 <div class="order-meta">
                     <p><strong>Order ID:</strong> #{{ order.id }}</p>
                     <p><strong>Date:</strong> {{ order.created_at|date:"M d, Y | h:i A"}}</p>
                     <p><strong>Customer:</strong> {{ order.customer_name|default:"Guest Customer" }}</p>
+                    <p><strong>Payment Mode:</strong> {{ order.payment_mode }}</p>
                 </div>
             </div>
             <span class="status-badge">Confirmed</span>
@@ -32,15 +33,15 @@
             </div>
 
             {% for item in order.items.all %}
-                <div class="item-row">
-                    <div class="item-details">
-                        <div class="item-name">{{ item.item_name }}</div>
-                        <small style="color: #b2bec3;">₹{{ item.price }} per unit</small>
-                    </div>
-                    <div class="item-qty">× {{ item.quantity }}</div>
-                    <div class="item-total">₹{{ item.get_total }}</div>
+            <div class="item-row">
+                <div class="item-details">
+                    <div class="item-name">{{ item.item_name }}</div>
+                    <small style="color: #b2bec3;">₹{{ item.price }} per unit</small>
                 </div>
-                {% endfor %}
+                <div class="item-qty">× {{ item.quantity }}</div>
+                <div class="item-total">₹{{ item.get_total }}</div>
+            </div>
+            {% endfor %}
 
         </div>
 

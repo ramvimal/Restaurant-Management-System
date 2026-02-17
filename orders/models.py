@@ -12,6 +12,15 @@ class Order(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     address = models.TextField(default="no")
 
+    payment_choices = [
+        ('CASH', 'Cash'),
+        ('CARD', 'Card'),
+    ]
+    payment_mode = models.CharField(
+        max_length=20,
+        choices=payment_choices,
+        default='CASH')
+
     status_choices = [
         ('PENDING', 'Pending'),
         ('CONFIRMED', 'Confirmed'),

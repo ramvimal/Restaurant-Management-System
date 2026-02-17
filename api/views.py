@@ -13,6 +13,6 @@ def menu_list_api(request):
 
 @api_view(["GET"])
 def order_list_api(request):
-    orders = Order.objects.all()
+    orders = Order.objects.filter(status="PENDING")
     serializer = OrdersSerializer(orders, many=True)
     return Response(serializer.data)

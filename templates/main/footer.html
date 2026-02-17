@@ -1,16 +1,31 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'main/footer.css' %}">
 </head>
+
 <body>
-    
+
     <footer class="main-footer">
         <h3>Shree Ram</h3>
         <p>&copy; <span id="year">2026</span> Shree Ram Fine Dining. All rights reserved.</p>
+        <a href="https://www.instagram.com/vimalram7660/">
+            <img src="{% static 'Images/instagram.jpg' %}" class="instagram border" width="50px" height="50px"
+                alt="Instagram">
+        </a>
+        <a href="https://github.com/ramvimal">
+            <img src="{% static 'Images/github.jpg' %}" class="github border" width="50px" height="50px"
+                alt="Github">
+        </a>
+        <a href="https://www.linkedin.com/in/vimal-ram-82813a2a7/">
+            <img src="{% static 'Images/linkedin.jpg' %}" class="linkedin border" width="50px" height="50px"
+                alt="Linkedin">
+        </a>
     </footer>
 </body>
+
 </html>

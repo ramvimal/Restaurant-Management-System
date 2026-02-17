@@ -93,15 +93,6 @@ def cashier_order_detail(request, order_id):
         ]
     })
 
-    # def mark_order_completed(request, order_id):
-    #     order = Order.objects.get(id=order_id)
-    #     order.status = "COMPLETED"
-    #     order.save()
-
-    #     return JsonResponse({"success": True})
-
-
-
 @login_required
 @user_passes_test(is_cashier)
 @require_POST
