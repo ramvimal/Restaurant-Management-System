@@ -3,7 +3,7 @@
 {% block title %} <title>Login</title> {% endblock title %}
 
 {% block style %}
-    <link rel="stylesheet" href="{% static 'cashier/login.css' %}">
+<link rel="stylesheet" href="{% static 'cashier/cashier_dashboard.css' %}?v=3.1">
 {% endblock style %}
 
 {% block content %}
@@ -13,12 +13,12 @@
             {% csrf_token %}
             <h2>Welcome Back</h2>
             <p>Please enter your details to login.</p>
-            
+
             <div class="input-group">
                 <label for="username">Username</label>
                 <input type="text" id="username" name="username" placeholder="Enter your username" required>
             </div>
-            
+
             <div class="input-group">
                 <label for="password">Password</label>
                 <input type="password" id="password" name="password" placeholder="Enter your password" required>
@@ -29,8 +29,12 @@
                 <p>{{error}}</p>
             </div>
             {% endif %}
-            
-            <button type="submit" class="login-btn">Login</button
+
+            <button type="submit" class="login-btn">Login</button>
+
+            <div class="form-footer">
+                <a href="#">Forgot password?</a>
+            </div>
         </form>
     </div>
 </div>
