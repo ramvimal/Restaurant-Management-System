@@ -1,13 +1,11 @@
 from menu.models import MenuItem , Category
 from .serializers import CartSerializer, MenuItemSerializer , OrdersSerializer , CategorySerializer
 from orders.models import Order , OrderItem
-from rest_framework import viewsets , status
-from rest_framework.response import Response
+from rest_framework import viewsets 
 
 class MenuItemsViewSet(viewsets.ModelViewSet):
     serializer_class = MenuItemSerializer
     queryset = MenuItem.objects.all()
-
 
 class OrdersViewSet(viewsets.ModelViewSet):
     serializer_class = OrdersSerializer
@@ -23,7 +21,7 @@ class CartViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         order_id = self.request.query_params.get('order_id')
-        print(order_id)
+        
         if order_id:
             return OrderItem.objects.filter(order__id=order_id)
         return OrderItem.objects.none()

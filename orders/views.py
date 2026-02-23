@@ -298,11 +298,9 @@ def bill_pdf(request, order_id):
     p.drawCentredString(center, y, "**SAVE PAPER SAVE NATURE !!**")
     y -= 15
     p.setFont("Helvetica", 8)
-    p.drawCentredString(center, y, "YOU CAN NOW CALL US ON 1800 226344 (TOLL-")
+    p.drawCentredString(center, y, "Saving paper is a direct way to save trees, protecting natural habitats")
     y -= 10
-    p.drawCentredString(center, y, "FREE) FOR QUERIES/COMPLAINTS.")
-    y -= 15
-    p.drawCentredString(center, y, f"Time: {order.created_at.strftime('%H:%M')}")
+    p.drawCentredString(center, y, "and preserving the environment for a sustainable future")
     y -= 20
     p.line(50, y, width - 50, y)
 
