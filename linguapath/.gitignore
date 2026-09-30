@@ -9,3 +9,4 @@ dist/
 data/
 .DS_Store
 coverage/
+tsconfig.tsbuildinfo
