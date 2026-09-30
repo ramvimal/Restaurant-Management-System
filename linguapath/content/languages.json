@@ -1,0 +1,57 @@
+[
+  {
+    "id": "de",
+    "name": "German",
+    "nativeName": "Deutsch",
+    "flag": "🇩🇪",
+    "learners": 2413000,
+    "ttsLocale": "de-DE",
+    "script": "latin",
+    "readingAidLabel": "",
+    "order": 1
+  },
+  {
+    "id": "nl",
+    "name": "Dutch",
+    "nativeName": "Nederlands",
+    "flag": "🇳🇱",
+    "learners": 812000,
+    "ttsLocale": "nl-NL",
+    "script": "latin",
+    "readingAidLabel": "",
+    "order": 2
+  },
+  {
+    "id": "es",
+    "name": "Spanish",
+    "nativeName": "Español",
+    "flag": "🇪🇸",
+    "learners": 8140000,
+    "ttsLocale": "es-ES",
+    "script": "latin",
+    "readingAidLabel": "",
+    "order": 3
+  },
+  {
+    "id": "ko",
+    "name": "Korean",
+    "nativeName": "한국어",
+    "flag": "🇰🇷",
+    "learners": 2930000,
+    "ttsLocale": "ko-KR",
+    "script": "hangul",
+    "readingAidLabel": "Romanization",
+    "order": 4
+  },
+  {
+    "id": "ja",
+    "name": "Japanese",
+    "nativeName": "日本語",
+    "flag": "🇯🇵",
+    "learners": 3710000,
+    "ttsLocale": "ja-JP",
+    "script": "kana",
+    "readingAidLabel": "Romaji",
+    "order": 5
+  }
+]

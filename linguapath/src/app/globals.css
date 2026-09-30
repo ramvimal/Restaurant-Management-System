@@ -1,0 +1,74 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Chunky pressable nodes on the skill tree */
+.node-btn {
+  transition: transform 0.12s ease, filter 0.12s ease;
+}
+.node-btn:not(:disabled):hover {
+  transform: scale(1.06);
+}
+.node-btn:not(:disabled):active {
+  transform: translateY(4px) scale(0.98);
+  filter: brightness(0.94);
+}
+
+/* Wiggle on wrong answer */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-8px); }
+  40%, 80% { transform: translateX(8px); }
+}
+.animate-shake {
+  animation: shake 0.45s ease;
+}
+
+/* Gentle bounce for the active lesson */
+@keyframes node-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-7px); }
+}
+.animate-node-bounce {
+  animation: node-bounce 1.6s ease-in-out infinite;
+}
+
+/* CJK-friendly text */
+.cjk {
+  font-family: "Nunito", "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Noto Sans JP",
+    "Noto Sans KR", "Malgun Gothic", "Apple SD Gothic Neo", Meiryo, sans-serif;
+  line-height: 1.75;
+  overflow-wrap: anywhere;
+}
+
+/* Slim scrollbars */
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 8px;
+}
+.dark *::-webkit-scrollbar-thumb {
+  background: #475569;
+}
+
+/* Focus visibility for keyboard users */
+:focus-visible {
+  outline: 3px solid #0cc78c;
+  outline-offset: 2px;
+}
+
+/* Confetti canvas sits above everything */
+canvas.confetti-canvas {
+  z-index: 200 !important;
+}
